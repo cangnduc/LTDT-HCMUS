@@ -5,25 +5,13 @@ namespace LTDT_Project
     {
         static void Main(string[] args)
         {
+            //
+            Cau5 cau5 = new Cau5("Graph/eluer.txt");
             //Cau1 cau1 = new Cau1("Graph/cau1-1.txt");
-            //cau1.showGraph();
-            showGraph();
+            cau5.showGraph();
+            //Cau2 cau2 = new Cau2("Graph/cau1-1.txt");
+            //Console.WriteLine(cau2.g.GetNumEdges());
         }
-        public static void showGraph()
-        {
-            Graph graph = new Graph("Graph/cau1-1.txt");
-            graph.PrintAdjacencyMatrix();
-            if (graph.isUndirected())
-            {
-                Console.WriteLine("Do thi vo huong");
-            }
-            else
-            {
-                Console.WriteLine("Do thi co huong");
-            }
-            Console.WriteLine("So dinh cua do thi: " + graph.GetNumVertices());
-            Console.WriteLine("So canh cua do thi: " + graph.GetNumEdges());
-            graph.PrintVertex();
-        }
+        
     }
 }

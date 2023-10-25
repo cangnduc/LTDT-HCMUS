@@ -1,9 +1,9 @@
 using System;
-class Cau1
+class Cau5
 {
     public string? filePath;
     public Graph? graph;
-    public Cau1(string? filePath)
+    public Cau5(string? filePath)
     {
         this.filePath = filePath;
         if (this.filePath != null)
@@ -12,7 +12,7 @@ class Cau1
         }
         else this.graph = new Graph();
     }
-    
+
     public void showGraph()
     {
         //Graph graph = new Graph("Graph/cau1-2.txt");
@@ -20,7 +20,9 @@ class Cau1
         {
             Console.WriteLine("Khong the doc file");
             return;
-        }else {
+        }
+        else
+        {
             graph.PrintAdjacencyMatrix();
             if (graph.isUndirected)
             {
@@ -36,8 +38,30 @@ class Cau1
             Console.WriteLine("So canh khuyen cua do thi: " + graph.CountSelfLoops());
             Console.WriteLine("So dinh co lap: " + graph.IsolatedVertices);
             graph.PrintVertex();
-        }
-        
+            //Console.WriteLine("Don do thi: " + graph.IsSimpleGraph());
+            HandleLogic();
 
+        }
+
+
+    }
+    public void HandleLogic()
+    {
+
+        if (graph != null && graph.IsSimpleGraph())
+        {
+            if (graph.IsEulerGraph())
+            {
+                Console.WriteLine("Do thi Euler");
+            }
+            else if (graph.isEulerPath()) {
+                Console.WriteLine("Do thi co duong di Euler");
+            }
+            else
+            {
+                Console.WriteLine("Khong phai do thi Euler");
+            }
+            graph.FindEulerPath();
+        }
     }
 }
