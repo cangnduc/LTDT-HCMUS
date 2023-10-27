@@ -5,35 +5,36 @@ using System.Linq;
 class Graph
 {
 
-    private int numVertices;
-    private int[,] adjacencyMatrix;
-    public bool isUndirected = false;
+    public int numVertices =0;
+    public int[,] adjacencyMatrix = new int[0,0];
+    public List<int>[] adjacencyList = new List<int>[0];
+    public bool isUndirected;
     public int IsolatedVertices;
     // Khởi tạo ma trận kề
     public Graph(string filename)
     {
-        this.numVertices = 0;
-        this.adjacencyMatrix = new int[0, 0];
+        
         ReadFile(filename);
+        ConvertToAdjacencyList();
         this.isUndirected = CheckIsUndirected();
         this.IsolatedVertices = countIsolatedVertices();
     }
     public Graph()
     {
-        this.numVertices = 0;
-        this.adjacencyMatrix = new int[0, 0];
+       
     }
     // Thêm cạnh từ đỉnh source đến đỉnh destination với trọng số weight
     public void AddEdge(int source, int destination, int weight)
     {
+        
         if (adjacencyMatrix[source, destination] == 0)
         {
-            adjacencyMatrix[source, destination] = weight;
+             adjacencyMatrix[source, destination] = weight;
         }
         else
         {
-            adjacencyMatrix[source, destination] += weight;
-        }
+             adjacencyMatrix[source, destination] += weight;
+         }
 
 
     }
@@ -44,7 +45,7 @@ class Graph
         return adjacencyMatrix[source, destination];
     }
     // In ma trận kề
-    public void PrintAdjacencyMatrix()
+    public void PrintadjacencyMatrix()
     {
         for (int i = 0; i < adjacencyMatrix.GetLength(0); i++)
         {
@@ -118,6 +119,7 @@ class Graph
         }*/
 
     }
+    // Đếm bậc của các đỉnh, dùng mảng 2 chiều lưu bậc của các đỉnh [i][0] là bậc vào, [i][1] là bậc ra
     public int[][] countDegrees()
     {
         int[][] degrees = new int[numVertices][];
@@ -161,6 +163,7 @@ class Graph
         }
         return degrees;
     }
+    // In bậc của các đỉnh
     public void PrintVertex()
     {
         int[][] degrees = this.countDegrees();
@@ -215,6 +218,36 @@ class Graph
         }
         return parallelEdgeCount;
     }
+    // Đếm số đỉnh treo, trong đồ thị vô hướng nếu bậc của đỉnh i = 1 thì đỉnh i là đỉnh treo
+    // Trong đồ thị có hướng nếu tổng bậc vào và bậc ra của đỉnh i = 1 thì đỉnh i là đỉnh treo
+    public int CountLeftNode() {
+        int count = 0;
+        // [i][0] là bậc của đỉnh i trong đồ thị vô hướng
+        // [i][0] là bậc vào, [i][1] là bậc ra => đồ thị có hướng
+        int[][] degrees = this.countDegrees(); 
+        
+        if(this.isUndirected) {
+            for (int i = 0; i < degrees.Length; i++)
+            {
+                if (degrees[i][0] == 1)
+                {
+                    count++;
+                }
+            }
+        }
+        else {
+            for (int i = 0; i < degrees.Length; i++)
+            {
+                if (degrees[i][0] + degrees[i][1] == 1)
+                {
+                    count++;
+                }
+            }
+        }
+        
+        return count;
+    }
+    // Đếm số cạnh khuyên, trong ma trận kề đỉnh nếu i = j và adjacencyMatrix[i,j] > 0 thì đỉnh i có cạnh khuyên
     public int CountSelfLoops()
     {
         int selfLoopCount = 0;
@@ -228,13 +261,16 @@ class Graph
         }
         return selfLoopCount;
     }
+    // Đếm số đỉnh cô lập, trong ma trận kề nếu bậc của đỉnh i = 0 thì đỉnh i cô lập
     private int countIsolatedVertices()
     {
         int count = 0;
+        // [i][0] là bậc của đỉnh i trong đồ thị vô hướng
+        // [i][0] là bậc vào, [i][1] là bậc ra => đồ thị có hướng
         int[][] degrees = this.countDegrees();
         for (int i = 0; i < degrees.Length; i++)
         {
-            if (degrees[i][0] == 0 && degrees[i][1] == 0)
+            if (degrees[i][0]  + degrees[i][1] == 0)
             {
                 count++;
             }
@@ -279,180 +315,69 @@ class Graph
         }
 
     }
-    // Kiểm tra đồ thị có chu trình hoặc đường đi euler hay không
-    public bool IsEulerGraph()
+    // Convert ma trận kề sang danh sách kề
+    public void ConvertToAdjacencyList()
     {
-        // Đồ thị vô hướng, kiểm tra bậc của các đỉnh đều là chẵn
-        if (this.isUndirected)
+        this.adjacencyList = new List<int>[numVertices];
+        for (int i = 0; i < numVertices; i++)
         {
-            int[][] degrees = this.countDegrees();
-            for (int i = 0; i < degrees.Length; i++)
+            List<int> list = new List<int>();
+            for (int j = 0; j < numVertices; j++)
             {
-                if (degrees[i][0] % 2 != 0)
+                if (adjacencyMatrix[i, j] != 0)
                 {
-                    return false;
+                    list.Add(j);
                 }
             }
-            return true;
-        }
-        // Đồ thị có hướng, kiểm tra bậc vào bằng bậc ra, Nếu bậc của
-        // các đỉnh đều bằng nhau thì đồ thị có chu trình euler, nếu
-
-        else
-        {
-            int[][] degrees = this.countDegrees();
-            for (int i = 0; i < degrees.Length; i++)
-            {
-                if (degrees[i][0] != degrees[i][1])
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-    }
-    // Kiểm tra đồ thị có đường đi Eluer hay không
-    // 
-    public bool isEulerPath()
-    {
-        // Đồ thị vô hướng, chỉ có duy nhất 2 đỉnh bậc lẻ
-        if (this.isUndirected)
-        {
-            int[][] degrees = this.countDegrees();
-            int count = 0;
-            for (int i = 0; i < degrees.Length; i++)
-            {
-                if (degrees[i][0] % 2 != 0)
-                {
-                    count++;
-                    if (count > 2)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        // Đồ thị có hướng, tồn tại 2 đỉnh u, v, deg+(u) - deg-(u) = 1 và deg+(v) - deg-(v) = -1
-        else
-        {
-            int[][] degrees = this.countDegrees();
-            int count = 0;
-            for (int i = 0; i < degrees.Length; i++)
-            {
-                if (degrees[i][0] - degrees[i][1] == 1)
-                {
-                    count++;
-                    if (count > 1)
-                    {
-                        return false;
-                    }
-                }
-                else if (degrees[i][0] - degrees[i][1] == -1)
-                {
-                    count++;
-                    if (count > 1)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
+            adjacencyList[i] = list;
         }
     }
-    // Tìm đường đi Euler
-    public void FindEulerPath()
+    // In danh sách kề
+    public void PrintAdjacencyList()
     {
-        //Kiểm tra đồ thị vô hướng
-        if (this.isUndirected)
+        Console.WriteLine("Danh sach ke cua Tung Dinh la:");
+        Console.WriteLine(adjacencyList.Length);
+        for (int i = 0; i < adjacencyList.Length; i++)
         {
-            // Đồ thị có đường đi Euler và là đồ thị đơn
-            if (this.isEulerPath() && this.IsSimpleGraph())
+            Console.Write($"{i}: ");
+            for (int j = 0; j < adjacencyList[i].Count; j++)
             {
-                int[][] degrees = this.countDegrees();
-                int start = 0;
-                for (int i = 0; i < degrees.Length; i++)
-                {
-                    if (degrees[i][0] % 2 != 0)
-                    {
-                        start = i;
-                        break;
-                    }
-                }
-                int[] path = new int[this.GetNumEdges() + 1];
-                int index = 0;
-                int current = start;
-                int next = 0;
-                while (index < path.Length)
-                {
-                    path[index] = current;
-                    index++;
-                    for (int i = 0; i < this.numVertices; i++)
-                    {
-                        if (this.adjacencyMatrix[current, i] > 0)
-                        {
-                            next = i;
-                            break;
-                        }
-                    }
-                    this.adjacencyMatrix[current, next]--;
-                    this.adjacencyMatrix[next, current]--;
-                    current = next;
-                }
-                Console.WriteLine("Duong di Euler: ");
-                for (int i = 0; i < path.Length; i++)
-                {
-                    Console.Write(path[i] + " ");
-                }
-                Console.WriteLine();
+                Console.Write($"{adjacencyList[i][j]} ");
             }
-            else if (this.IsEulerGraph() && this.IsSimpleGraph())
-            {
-                int[][] degrees = this.countDegrees();
-                int start = 0;
-                for (int i = 0; i < degrees.Length; i++)
-                {
-                    if (degrees[i][0] % 2 != 0)
-                    {
-                        start = i;
-                        break;
-                    }
-                }
-                int[] path = new int[this.GetNumEdges() + 1];
-                int index = 0;
-                int current = start;
-                int next = 0;
-                while (index < path.Length)
-                {
-                    path[index] = current;
-                    index++;
-                    for (int i = 0; i < this.numVertices; i++)
-                    {
-                        if (this.adjacencyMatrix[current, i] > 0)
-                        {
-                            next = i;
-                            break;
-                        }
-                    }
-                    this.adjacencyMatrix[current, next]--;
-                    this.adjacencyMatrix[next, current]--;
-                    current = next;
-                }
-                Console.WriteLine("Duong di Euler: ");
-                for (int i = 0; i < path.Length; i++)
-                {
-                    Console.Write(path[i] + " ");
-                }
-                Console.WriteLine();
-            }
-            else
-            {
-                Console.WriteLine("Không Có Đừng đi Euler");
-
-            }
-
+            Console.WriteLine();
         }
+    }
+    // Đếm số thành phần liên thông
+    public bool IsConnected()
+    {
+        bool[] visited = new bool[numVertices];
+        Queue<int> queue = new Queue<int>();
+        int count = 0;
+
+        for (int i = 0; i < numVertices; i++)
+        {
+            if (!visited[i])
+            {
+                queue.Enqueue(i);
+                visited[i] = true;
+                count++;
+
+                while (queue.Count > 0)
+                {
+                    int vertex = queue.Dequeue();
+                    foreach (int neighbor in adjacencyList[vertex])
+                    {
+                        if (!visited[neighbor])
+                        {
+                            queue.Enqueue(neighbor);
+                            visited[neighbor] = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return count == 1; // Nếu chỉ có một thành phần liên thông, đồ thị liên thông.
     }
 
 
