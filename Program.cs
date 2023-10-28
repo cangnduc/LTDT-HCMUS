@@ -6,11 +6,13 @@ namespace LTDT_Project
     {
         static void Main(string[] args)
         {
-           
-            Bai1 bai1 = new Bai1("graph/eluer.txt");
+           string filePath = "graph/djtra.txt";
+            Bai1 bai1 = new Bai1(filePath);
             bai1.ShowBai1();
-            Bai5 bai5 = new Bai5("graph/eluer.txt");
+            Bai5 bai5 = new Bai5(filePath);
             bai5.ShowBai5();
+            Bai4 bai4 = new Bai4(filePath);
+            bai4.ShowBai4();
         }
 
     }
