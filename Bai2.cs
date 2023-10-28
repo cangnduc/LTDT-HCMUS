@@ -12,8 +12,11 @@ class Bai2
         Console.WriteLine("Bai 2, Thanh phan lien thong: ");
         if (g.IsConnected())
         {
-            Console.WriteLine("Do thi lien thong");
+            Console.WriteLine("Giả Thuât DFS:");
             DFS(0, new bool[g.V]);
+            Console.WriteLine();
+            Console.WriteLine("Giả Thuât BFS:");
+            BFS(0);
         }
         else
         {
@@ -73,6 +76,32 @@ class Bai2
             if (!visited[v] && g.adjMatrix[start, v].Count > 0)
             {
                 DFS(v, visited);
+            }
+        }
+    }
+    // Giải thuật BFS, input là đỉnh bắt đầu
+    // in ra đường đi từ đỉnh bắt đầu đến tất cả các đỉnh
+    public void BFS(int start)
+    {
+        bool[] visited = new bool[g.V];
+        for (int i = 0; i < g.V; i++)
+        {
+            visited[i] = false;
+        }
+        Queue<int> queue = new Queue<int>();
+        visited[start] = true;
+        queue.Enqueue(start);
+        while (queue.Count > 0)
+        {
+            int u = queue.Dequeue();
+            Console.Write(u + " ");
+            for (int v = 0; v < g.V; v++)
+            {
+                if (!visited[v] && g.adjMatrix[u, v].Count > 0)
+                {
+                    visited[v] = true;
+                    queue.Enqueue(v);
+                }
             }
         }
     }

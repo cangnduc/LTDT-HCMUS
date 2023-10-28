@@ -9,7 +9,7 @@ namespace LTDT_Project
             //string filePath = "graph/djtra.txt";
             //string filePath = "graph/djtra-3.txt";
             //string filePath = "graph/Bai3-1.txt";
-            string filePath = "graph/Bai2-3.txt"; // Bai 2 ví dụ 3, in các thành phần liên thông
+            string filePath = "graph/Bai2-2.txt"; // Bai 2 ví dụ 3, in các thành phần liên thông
             Bai1 bai1 = new Bai1(filePath);
             bai1.ShowBai1();
 
