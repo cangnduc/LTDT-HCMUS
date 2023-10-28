@@ -1,11 +1,14 @@
-class Bai1 {
+class Bai1
+{
     public Graphs g;
-    public Bai1(string filePath) {
+    public Bai1(string filePath)
+    {
         g = new Graphs(filePath);
     }
     public void ShowBai1()
     {
        
+
         g.PrintGraph();
         //Console.WriteLine("La do thi vo huong?:" + g.isUndirected);
         Console.WriteLine("So canh cua do thi:" + g.GetNumEdges());
@@ -42,7 +45,7 @@ class Bai1 {
         }
 
     }
-    public  int CountParallelEdges()
+    public int CountParallelEdges()
     {
         int count = 0;
         for (int i = 0; i < g.V; i++)
@@ -58,7 +61,7 @@ class Bai1 {
         if (g.isUndirected) return count / 2;
         return count;
     }
-    public  int CountSelfLoops()
+    public int CountSelfLoops()
     {
         int count = 0;
         for (int i = 0; i < g.V; i++)
@@ -72,7 +75,7 @@ class Bai1 {
     }
     // Đếm số đỉnh treo, đồ thị vô hướng, đỉnh treo có bậc = 1
     // Đồ thị có hướng, đỉnh treo có bậc vào hoặc ra = 1
-    public  int CountLeaf()
+    public int CountLeaf()
     {
         int count = 0;
         if (g.isUndirected)
@@ -100,7 +103,7 @@ class Bai1 {
 
         return count;
     }
-    public  int countIsolatedVertices()
+    public int countIsolatedVertices()
     {
         int count = 0;
         if (g.isUndirected)

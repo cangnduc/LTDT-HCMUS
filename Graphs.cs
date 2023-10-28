@@ -11,6 +11,7 @@ class Graphs
     public int numEdges = 0;
     public Graphs(string filePath)
     {
+       
         LoadFile2(filePath);
         isUndirected = CheckIsUndirected(); // Kiểm tra đồ thị vô hướng
         numEdges = GetNumEdges(); // Tính số cạnh của đồ thị
@@ -40,31 +41,38 @@ class Graphs
     // Load file text chưa danh sách kề của đồ thị có trọng số
     public void LoadFile2(string filePath)
     {
-        string[] lines = File.ReadAllLines(filePath);
-        V = int.Parse(lines[0]);
-        adjMatrix = new List<int>[V, V];
-        for (int i = 0; i < V; i++)
-        {
-            for (int j = 0; j < V; j++)
+        try {
+            string[] lines = File.ReadAllLines(filePath);
+            V = int.Parse(lines[0]);
+            adjMatrix = new List<int>[V, V];
+            for (int i = 0; i < V; i++)
             {
-                adjMatrix[i, j] = new List<int>();
-            }
-        }
-
-        for (int i = 1; i < lines.Length; i++)
-        {
-            string[] line = lines[i].Split(' ');
-            for (int j = 0; j < line.Length / 2; j++)
-            {
-                int u = i - 1;
-                int v = int.Parse(line[2 * j + 1]);
-                int w = int.Parse(line[2 * j + 2]);
-
-                adjMatrix[u, v].Add(w);
-
+                for (int j = 0; j < V; j++)
+                {
+                    adjMatrix[i, j] = new List<int>();
+                }
             }
 
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string[] line = lines[i].Split(' ');
+                for (int j = 0; j < line.Length / 2; j++)
+                {
+                    int u = i - 1;
+                    int v = int.Parse(line[2 * j + 1]);
+                    int w = int.Parse(line[2 * j + 2]);
+
+                    adjMatrix[u, v].Add(w);
+
+                }
+
+            }
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        
     }
 
     // Kiem tra do thi vo huong, so sanh gia tri dinh qua duong cheo ma tran ke
@@ -120,7 +128,6 @@ class Graphs
         }
         return degree;
     }
-
     // Tính số cạnh của đồ thị
     // Đồ thị vô hướng 2e = tổng bậc của các đỉnh
     // Đồ thị có hướng e = tổng bậc vào hoặc ra của các đỉnh
