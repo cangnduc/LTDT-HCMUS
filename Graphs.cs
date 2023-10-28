@@ -4,6 +4,7 @@ using System.Linq;
 class Graphs
 {
     public int V;
+    
     public bool isSimpleGraph = false;
     public bool isUndirected = false;
     // Ma trận kề gôm [V,V] với V là số đỉnh, mỗi phần tử là 1 list chưa trọng số của 1 cạnh nối 2 đỉnh
@@ -16,6 +17,7 @@ class Graphs
         isUndirected = CheckIsUndirected(); // Kiểm tra đồ thị vô hướng
         numEdges = GetNumEdges(); // Tính số cạnh của đồ thị
         isSimpleGraph = CheckIsSimpleGraph(); // Kiểm tra đơn đồ thị
+        
     }
     // Thêm cạnh vào ma trận kề
     public void AddEdge(int u, int v, int w)
