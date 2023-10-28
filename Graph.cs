@@ -77,11 +77,20 @@ class Graph
         // Tìm số cạnh =  tổng degree của các đỉnh / 2 = e
         int count = 0;
         int[][] degrees = this.countDegrees();
-        for (int i = 0; i < degrees.Length; i++)
-        {
-            count += degrees[i][1] + degrees[i][0];
+        if(this.isUndirected) {
+            for (int i = 0; i < degrees.Length; i++)
+            {
+                count += degrees[i][1] + degrees[i][0];
+            }
+            return count / 2;
         }
-        return count / 2;
+        else {
+            for (int i = 0; i < degrees.Length; i++)
+            {
+                count += degrees[i][0];
+            }
+            return count;
+        }
         /* if (isUndirected())
         {
             for (int i = 0; i < adjacencyMatrix.GetLength(0); i++)
@@ -132,10 +141,10 @@ class Graph
                 {
                     if (this.adjacencyMatrix[i, j] != 0)
                     {
-                        count[0] += this.adjacencyMatrix[i, j];
+                        count[0] += 1;
                         if (i == j)
                         {
-                            count[0] += this.adjacencyMatrix[i, i];
+                            count[0] += 1;
                         }
                     }
                 }
@@ -152,9 +161,14 @@ class Graph
                 for (int j = 0; j < numVertices; j++)
                 {
 
-                    count[0] += this.adjacencyMatrix[i, j];
-
-                    count[1] += this.adjacencyMatrix[j, i];
+                    if (this.adjacencyMatrix[i, j] != 0)
+                    {
+                        count[0] += 1;
+                    }
+                    if (this.adjacencyMatrix[j, i] != 0)
+                    {
+                        count[1] += 1;
+                    }
 
                 }
                 //Console.WriteLine(count[0] + " " + count[1]);

@@ -76,21 +76,15 @@ class Cau5
                 if (degrees[i][0] - degrees[i][1] == 1)
                 {
                     count++;
-                    if (count > 1)
-                    {
-                        return false;
-                    }
+                    
                 }
                 else if (degrees[i][0] - degrees[i][1] == -1)
                 {
                     count++;
-                    if (count > 1)
-                    {
-                        return false;
-                    }
+                   
                 }
             }
-            return true;
+            return count == 2;
         }
     }
 
