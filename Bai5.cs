@@ -7,7 +7,7 @@ class Bai5
     }
     public void ShowBai5()
     {
-        Console.WriteLine("Bai 5, Chu trinh Euler: ");
+        Console.WriteLine("Yeu cau 5: Tim chu trinh Euler");
         // Kiểm tra đồ thị có phải là đơn đồ thị và liên thông
         if (g.isSimpleGraph && g.IsConnected())
         {
@@ -15,7 +15,7 @@ class Bai5
             {
                 // Tìm chu trình Euler voi dinh bat dau la 1
                 int start = 1;
-                Console.WriteLine("Chu trinh Euler: ");
+
                 FindEulerCycle(start);
             }
             else if (isEulerPath())
@@ -52,7 +52,7 @@ class Bai5
             }
         }
         // do thi co huong, tat ca cac dinh deu co bac vao = bac ra
-        else if (!g.isUndirected )
+        else if (!g.isUndirected)
         {
             int[,] degree = g.GetDegreeDirected();
             for (int i = 0; i < degree.GetLength(0); i++)
@@ -107,7 +107,8 @@ class Bai5
     // Tim chu trinh Euler va in ra ket qua
     public void FindEulerCycle(int start)
     {
-        if(g.isUndirected ) { // check undirected graph
+        if (g.isUndirected)
+        { // check undirected graph
             int[] degree = g.GetDegree();
             List<int> path = new List<int>();
             int index = 0;
@@ -144,7 +145,7 @@ class Bai5
                 Console.Write(path[i] + " ");
             }
         }
-        else if (!g.isUndirected ) // check directed graph
+        else if (!g.isUndirected) // check directed graph
         {
             int[,] degree = g.GetDegreeDirected();
             List<int> path = new List<int>();
@@ -189,7 +190,7 @@ class Bai5
     // Tim duong di Euler va in ra ket qua
     public void FindEulerPath()
     {
-        if (g.isUndirected  && g.IsConnected()) // check undirected graph
+        if (g.isUndirected && g.IsConnected()) // check undirected graph
         {
             int[] degree = g.GetDegree();
             List<int> path = new List<int>();
@@ -236,10 +237,10 @@ class Bai5
                 Console.Write(path[i] + " ");
             }
 
-            
-            
+
+
         }
-        else if (!g.isUndirected ) // check directed graph
+        else if (!g.isUndirected) // check directed graph
         {
             int[,] degree = g.GetDegreeDirected();
             List<int> path = new List<int>();
@@ -286,7 +287,7 @@ class Bai5
                 Console.Write(path[i] + " ");
             }
         }
-       
+
     }
 
 

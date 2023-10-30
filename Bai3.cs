@@ -9,7 +9,7 @@ class Bai3
     }
     public void ShowBai3()
     {
-        Console.WriteLine("Bai 3: ");
+        Console.WriteLine("Yeu cau 3: Tim cay khung nho nhat");
         if (g.isUndirected && g.IsConnected())
         {
             Console.WriteLine("Giai thuat Prim");

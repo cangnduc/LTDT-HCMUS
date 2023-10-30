@@ -7,7 +7,7 @@ class Bai4
     }
     public void ShowBai4()
     {
-        Console.WriteLine("Bai 4: ");
+        Console.WriteLine("Yeu cau 4: Tim duong di ngan nhat ");
         if (isNegativeWeight())
         {
             Console.WriteLine("Do thi co trong so am");
@@ -117,17 +117,17 @@ class Bai4
     // Nếu không có đường đi, in ra thông báo không có đường đi
     private void PrintPath(int start, int end, List<int> distance, List<int> pre)
     {
-        Console.WriteLine("Đường đi ngắn nhất từ " + start + " đến " + end + ":");
-        Console.Write("Đường đi: ");
+        Console.WriteLine("Duong di ngan nhat " + start + " den " + end + ":");
+        Console.Write("Duong di: ");
         int current = end;
         while (current != start)
         {
             if (pre[current] == -1)
             {
-                Console.WriteLine("Không có đường đi");
+                Console.WriteLine("Khong co duong di");
                 return;
             }
-            
+
             Console.Write(current + " <- ");
             current = pre[current];
             if (current == start)
@@ -136,7 +136,7 @@ class Bai4
             }
         }
         Console.WriteLine();
-        Console.WriteLine("Độ dài đường đi: " + distance[end]);
+        Console.WriteLine("Do dai duong di: " + distance[end]);
     }
     // Tìm đường đi ngắn nhất từ đỉnh đầu tiên đến tất cả các đỉnh destination, bằng thuật toán Bellman-Ford
     // Dùng biến Pre để lưu đỉnh trước đỉnh hiện tại

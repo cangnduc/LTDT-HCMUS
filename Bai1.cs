@@ -10,7 +10,7 @@ class Bai1
        
 
         g.PrintGraph();
-        //Console.WriteLine("La do thi vo huong?:" + g.isUndirected);
+        Console.WriteLine("Phan tich thong tin do thi");
         Console.WriteLine("So canh cua do thi:" + g.GetNumEdges());
         PrintDegree();
         Console.WriteLine();

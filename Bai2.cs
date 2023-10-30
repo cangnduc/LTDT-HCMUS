@@ -9,7 +9,7 @@ class Bai2
 
     public void ShowBai2()
     {
-        Console.WriteLine("Bai 2, Thanh phan lien thong: ");
+        Console.WriteLine("Yeu cau 2 Duyet do thi: ");
         if (g.IsConnected())
         {
             Console.WriteLine("Giả Thuât DFS:");
